@@ -1,6 +1,6 @@
 import pool from "../src/db.js";
 
-export const getAllContracts = async (req , res) => {
+export const getAllRelocation = async (req , res) => {
     try {
         const result = await pool.query('SELECT * FROM contracts');
         res.json(result.rows);
@@ -10,7 +10,7 @@ export const getAllContracts = async (req , res) => {
     }
 };
 
-export const getContractById = async (req, res) => {
+export const getRelocationById = async (req, res) => {
     const { id } = req.params;
     try {
         const result = await pool.query('SELECT * FROM contracts WHERE contract_id = $1', [id]);
@@ -24,7 +24,7 @@ export const getContractById = async (req, res) => {
     }
 };
 
-export const postContract = async (req, res) => {
+export const postRelocation = async (req, res) => {
     const {
         registered_user,
         contract_number,
@@ -73,3 +73,36 @@ export const postContract = async (req, res) => {
     }
 };
 
+export const  putRelocationById = async (req, res) => {
+    const { id } = req.params;
+    const {
+        full_name,
+        age,
+        phone,
+        email,
+        address
+    } = req.body;
+
+    try {
+        const result = await pool.query(
+            `UPDATE tenants
+             SET full_name = $1,
+                 age = $2,
+                 phone = $3,
+                 email = $4,
+                 address = $5
+             WHERE id_number = $6
+             RETURNING *`,
+            [full_name, age, phone, email, address, id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('Error al actualizar solicitud de contrato:', error);
+        res.status(500).json({ error: 'Error al actualizar solicitud de contrato' });
+    }
+};
