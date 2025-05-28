@@ -3,9 +3,9 @@ import { postRelocation , getAllRelocation , getRelocationById , putRelocationBy
 
 const router = Router();
 
-router.post("/request/Relocation",postRelocation);
-router.get("/request/Relocation", getAllRelocation);
-router.get("/request/Relocation/:id", getRelocationById);
-router.put("/request/Relocation/:id", putRelocationById); 
+router.post("/Relocation",postRelocation);
+router.get("/Relocation", getAllRelocation);
+router.get("/Relocation/:id", getRelocationById);
+router.put("/Relocation/:id", putRelocationById); 
 
 export default router;

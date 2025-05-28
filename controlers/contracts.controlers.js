@@ -24,7 +24,7 @@ export const getContractById = async (req, res) => {
     }
 };
 
-export const postContract = async (req, res) => {
+export const postContract = async ( req, res) => {
     const {
         registered_user,
         contract_number,
@@ -38,7 +38,8 @@ export const postContract = async (req, res) => {
         business_name,
         entry_time,
         exit_time,
-        daysWork,
+        daysWork
+
     } = req.body;
 
     try {

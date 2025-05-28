@@ -2,7 +2,7 @@ import pool from "../src/db.js";
 
 export const getAllRelocation = async (req , res) => {
     try {
-        const result = await pool.query('SELECT * FROM contracts');
+        const result = await pool.query('SELECT * FROM transfers');
         res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
@@ -13,7 +13,7 @@ export const getAllRelocation = async (req , res) => {
 export const getRelocationById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM contracts WHERE contract_id = $1', [id]);
+        const result = await pool.query('SELECT * FROM transfers WHERE id_number = $1', [id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Contrato no encontrado' });
         }
@@ -26,43 +26,34 @@ export const getRelocationById = async (req, res) => {
 
 export const postRelocation = async (req, res) => {
     const {
-        registered_user,
-        contract_number,
+        
+        reason,
+        transfer_date,
         id_number,
-        location_id,
-        rent_amount,
-        activity,
-        duration_description,
-        init_date,
-        end_date,
-        business_name,
-        entry_time,
-        exit_time,
-        daysWork,
+        old_contract,
+        new_contract
+        
     } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO contracts (
-                registered_user, contract_number, id_number, location_id, rent_amount, activity, duration_description,
-                init_date, end_date, business_name, entry_time, exit_time, "daysWork"
+            `INSERT INTO transfers (
+                
+                reason,
+                transfer_date,
+                id_number,
+                old_contract,
+                new_contract
+
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
+                $1, $2, $3, $4 , $5
             ) RETURNING *`,
             [
-                registered_user,
-                contract_number,
+                reason,
+                transfer_date ,
                 id_number,
-                location_id,
-                rent_amount,
-                activity,
-                duration_description,
-                init_date,
-                end_date,
-                business_name,
-                entry_time,
-                exit_time,
-                daysWork
+                old_contract,
+                new_contract
                 
             ]
         );
@@ -76,24 +67,28 @@ export const postRelocation = async (req, res) => {
 export const  putRelocationById = async (req, res) => {
     const { id } = req.params;
     const {
-        full_name,
-        age,
-        phone,
-        email,
-        address
+        reason,
+        transfer_date,
+        id_number,
+        old_contract,
+        new_contract,
     } = req.body;
 
     try {
         const result = await pool.query(
-            `UPDATE tenants
-             SET full_name = $1,
-                 age = $2,
-                 phone = $3,
-                 email = $4,
-                 address = $5
-             WHERE id_number = $6
+            `UPDATE transfers
+             SET 
+             reason = $1,
+             transfer_date = $2,
+             old_contract = $3,
+             new_contract = $4
+             WHERE id_number = $5
              RETURNING *`,
-            [full_name, age, phone, email, address, id]
+
+            [reason,
+            transfer_date ,
+            old_contract,
+            new_contract, id]
         );
 
         if (result.rowCount === 0) {
