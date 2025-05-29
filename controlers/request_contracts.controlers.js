@@ -1,9 +1,9 @@
-import pool from "../src/db.js";
+import requestCmodel from '../models/request.models.js';
 
 
 export const getAllRcontracts = async (req , res) => {
     try {
-        const result = await pool.query('SELECT * FROM contract_requests');
+        const result = await requestCmodel.getAll();
         res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
@@ -14,7 +14,7 @@ export const getAllRcontracts = async (req , res) => {
 export const getRcontractById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM contract_requests WHERE id_number = $1', [id]);
+        const result = await requestCmodel.getById(id);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Contrato no encontrado' });
         }
@@ -37,21 +37,13 @@ export const postRcontract = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `INSERT INTO contract_requests (
-                id_number, full_name, request_date, activity, phone, email
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6
-            ) RETURNING *`,
-            [
-                id_number,
-                full_name,
-                request_date,
-                activity,
-                phone,
-                email,
-
-            ]
+        const result = await requestCmodel.create(
+            id_number,
+            full_name,
+            request_date,
+            activity,
+            phone,
+            email
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
@@ -71,16 +63,13 @@ export const putRcontractById = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `UPDATE contract_requests
-             SET full_name = $1,
-                 request_date = $2,
-                 activity = $3,
-                 phone = $4,
-                 email = $5
-             WHERE id_number = $6
-             RETURNING *`,
-            [full_name, request_date, activity, phone, email, id]
+        const result = await requestCmodel.edit(
+            id,
+            full_name,
+            request_date,
+            activity,
+            phone,
+            email
         );
 
         if (result.rowCount === 0) {
@@ -97,7 +86,7 @@ export const putRcontractById = async (req, res) => {
 export const DeleteRcontractById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('DELETE FROM contract_requests WHERE request_id = $1 RETURNING *', [id]);
+        const result = await requestCmodel.deleteRequest(id);
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });
         }

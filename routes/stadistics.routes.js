@@ -3,8 +3,8 @@ import { getAlldata, getdataById } from "../controlers/stadisticts.controlers.js
 
 const router = Router();
 
-router.get("/stadistics", getAlldata);
-router.get("/stadistics/:id", getdataById);
+router.get("/stadistics/:year", getAlldata);
+router.get("/stadistics/:id/:year", getdataById);
 
 
 

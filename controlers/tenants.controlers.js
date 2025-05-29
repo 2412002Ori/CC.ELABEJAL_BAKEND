@@ -1,9 +1,9 @@
-import pool from "../src/db.js";
+import tenantsModels from '../models/tenants.models.js';
 
 
 export const getTenants = async (req , res) => {
     try {
-        const result = await pool.query('SELECT * FROM tenants ');
+        const result = await tenantsModels.getAll();
         res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
@@ -14,14 +14,14 @@ export const getTenants = async (req , res) => {
 export const getTenantById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM tenants WHERE id_number = $1', [id]);
+        const result = await tenantsModels.getById(id);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Contrato no encontrado' });
         }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error('Error al obtener contrato:', error);
-        res.status(500).json({ error: 'Error al obtener contrato' });
+        console.error('Error al obtener el inquilino', error);
+        res.status(500).json({ error: 'Error 500' });
     }
 };
 
@@ -37,26 +37,18 @@ export const  postTenants = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `INSERT INTO tenants (
-                id_number, full_name, age, phone, email, address
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6
-            ) RETURNING *`,
-            [
-                id_number,
-                full_name,
-                age,
-                phone,
-                email,
-                address
-
-            ]
+        const result = await tenantsModels.create(
+            id_number,
+            full_name,
+            age,
+            phone,
+            email,
+            address
         );
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(result);
     } catch (error) {
-        console.error('Error al crear solicitud de contrato:', error);
-        res.status(500).json({ error: 'Error al crear solicitud de contrato' });
+        console.error('Error al crear solicitud de inquilino:', error);
+        res.status(500).json({ error: ' ya existe ese inquilino' });
     }
 };
 
@@ -71,16 +63,13 @@ export const  putTenantById = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `UPDATE tenants
-             SET full_name = $1,
-                 age = $2,
-                 phone = $3,
-                 email = $4,
-                 address = $5
-             WHERE id_number = $6
-             RETURNING *`,
-            [full_name, age, phone, email, address, id]
+        const result = await tenantsModels.edit(
+            id,
+            full_name,
+            age,
+            phone,
+            email,
+            address
         );
 
         if (result.rowCount === 0) {
