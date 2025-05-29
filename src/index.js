@@ -1,19 +1,29 @@
 import express from 'express';
 import { PORT } from './config.js';
+import morgan from 'morgan'
+
 import contractRoutes from '../routes/contract.routes.js';
 import requestContractRoutes from '../routes/request_contracts.routes.js';
 import tenantRoutes from '../routes/tenants.routes.js';
 import relocationRutes from '../routes/relocation.rutes.js';
+import userRoutes from '../routes/users.routes.js';
+import inventoriesRoutes from '../routes/inventories.routes.js';
+import inventoryRoutes from '../routes/inventory.routes.js';
 
 const app = express();
 
+app.use(morgan('dev'));
 app.use(express.json()); 
 
 app.use('/api', contractRoutes); 
 app.use('/api', requestContractRoutes);
 app.use('/api', tenantRoutes);
 app.use('/api', relocationRutes);
+app.use('/api', userRoutes);
+app.use('/api', inventoriesRoutes);
+app.use('/api', inventoryRoutes);
 
 app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto', PORT);
 });
+

@@ -4,6 +4,7 @@
 *.so
 *.old
 node_modules/
+.env
 
 # Folders
 _obj
