@@ -1,8 +1,8 @@
-import pool from "../src/db.js";
+import relocationModels from '../models/relocation.models.js';
 
 export const getAllRelocation = async (req , res) => {
     try {
-        const result = await pool.query('SELECT * FROM contracts');
+        const result = await relocationModels.getAll();
         res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
@@ -13,7 +13,7 @@ export const getAllRelocation = async (req , res) => {
 export const getRelocationById = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM contracts WHERE contract_id = $1', [id]);
+        const result = await relocationModels.getById(id);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Contrato no encontrado' });
         }
@@ -26,45 +26,22 @@ export const getRelocationById = async (req, res) => {
 
 export const postRelocation = async (req, res) => {
     const {
-        registered_user,
-        contract_number,
+        
+        reason,
+        transfer_date,
         id_number,
-        location_id,
-        rent_amount,
-        activity,
-        duration_description,
-        init_date,
-        end_date,
-        business_name,
-        entry_time,
-        exit_time,
-        daysWork,
+        old_contract,
+        new_contract
+        
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `INSERT INTO contracts (
-                registered_user, contract_number, id_number, location_id, rent_amount, activity, duration_description,
-                init_date, end_date, business_name, entry_time, exit_time, "daysWork"
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
-            ) RETURNING *`,
-            [
-                registered_user,
-                contract_number,
-                id_number,
-                location_id,
-                rent_amount,
-                activity,
-                duration_description,
-                init_date,
-                end_date,
-                business_name,
-                entry_time,
-                exit_time,
-                daysWork
-                
-            ]
+        const result = await relocationModels.create(
+            reason,
+            transfer_date,
+            id_number,
+            old_contract,
+            new_contract
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
@@ -76,24 +53,21 @@ export const postRelocation = async (req, res) => {
 export const  putRelocationById = async (req, res) => {
     const { id } = req.params;
     const {
-        full_name,
-        age,
-        phone,
-        email,
-        address
+        reason,
+        transfer_date,
+        id_number,
+        old_contract,
+        new_contract,
     } = req.body;
 
     try {
-        const result = await pool.query(
-            `UPDATE tenants
-             SET full_name = $1,
-                 age = $2,
-                 phone = $3,
-                 email = $4,
-                 address = $5
-             WHERE id_number = $6
-             RETURNING *`,
-            [full_name, age, phone, email, address, id]
+        const result = await relocationModels.edit(
+            id,
+            reason,
+            transfer_date,
+            id_number,
+            old_contract,
+            new_contract
         );
 
         if (result.rowCount === 0) {
@@ -103,6 +77,6 @@ export const  putRelocationById = async (req, res) => {
         res.json(result.rows[0]);
     } catch (error) {
         console.error('Error al actualizar solicitud de contrato:', error);
-        res.status(500).json({ error: 'Error al actualizar solicitud de contrato' });
+        res.status(500).json({ error: 'Error 500' });
     }
 };

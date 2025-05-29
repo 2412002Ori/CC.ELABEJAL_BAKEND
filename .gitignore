@@ -6,6 +6,7 @@
 node_modules/
 .env
 
+
 # Folders
 _obj
 _test
@@ -32,6 +33,7 @@ _testmain.go
 
 dist
 src/v*
+db.js
 bin/*.exe
 bin/*.log
 bin/LICENSE
