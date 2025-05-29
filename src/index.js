@@ -17,13 +17,15 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json()); 
 
-
+//rutas oriana 
 app.use('/api', paymentsRoutes);
 app.use('/api', stadsticsRoutes);
 app.use('/api', contractRoutes); 
 app.use('/api', requestContractRoutes);
 app.use('/api', tenantRoutes);
 app.use('/api', relocationRutes);
+
+// rutas cesar
 app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);

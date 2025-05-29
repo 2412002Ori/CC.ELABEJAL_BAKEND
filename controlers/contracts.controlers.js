@@ -67,6 +67,7 @@ export const postContract = async ( req, res) => {
             
         );
         res.status(201).json(result.rows[0]);
+        
     } catch (error) {
         console.error('Error al crear contrato:', error.message, error.stack);
          res.status(500).json({ error: 'Error al crear contrato', details: error.message });

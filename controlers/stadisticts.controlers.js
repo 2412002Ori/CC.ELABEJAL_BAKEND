@@ -26,15 +26,3 @@ export const getdataById = async (req, res) => {
     }
 };
 
-/* LLAMADAS PARA ESTADISTICAS SELECT
-    c.location_id,
-    c.contract_number,
-    SUM(p.amount) AS total_pagado_por_contrato
-FROM
-    contracts AS c
-INNER JOIN
-    payments AS p ON c.contract_number = p.contract_number
-GROUP BY
-    c.location_id, c.contract_number
-ORDER BY
-    c.location_id, c.contract_number;*/
