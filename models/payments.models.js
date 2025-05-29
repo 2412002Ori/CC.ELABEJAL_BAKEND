@@ -93,8 +93,28 @@ const paymentModel = {
             console.error('Error al crear pago:', error.message, error.stack);
             throw error;
         }
+    },
+
+ 
+    deletepayment: async (id) => {
+        try {
+            console.log("Intentando eliminar pago con ID:", id); 
+
+            const result = await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *', [id]);
+
+            console.log("Resultado de la eliminación:", result);
+
+            if (result.rowCount === 0) {
+                console.warn("No se encontró ningún pago con el ID:", id);
+                return null; 
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Error al eliminar el pago:', error.message, error.stack); // Muestra el mensaje y el stack
+            throw error;
+        }
     }
-
-};
-
+}; 
 export default paymentModel;
+

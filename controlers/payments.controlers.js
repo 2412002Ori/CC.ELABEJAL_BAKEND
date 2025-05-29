@@ -31,7 +31,6 @@ export const getPaymentsById = async (req, res) => {
 export const postPayments = async (req, res) => {
     const {
 
-        
 		amount,
 		payment_date,
 		created_at,
@@ -91,5 +90,19 @@ export const patchPaymentsById = async (req, res) => {
     } catch (error) {
         console.error('Error al actualizar pago:', error);
         res.status(500).json({ error: 'Error al actualizar pago' });
+    }
+};
+
+export const deletepaymentsById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await paymentModel.deletepayment(id);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });
+        }
+        res.json({ message: ' pago eliminado eliminada', deleted: result.rows[0] });
+    } catch (error) {
+        console.error('Error al eliminar solicitud de contrato:', error);
+        res.status(500).json({ error: 'Error al eliminar solicitud de contrato' });
     }
 };
