@@ -77,10 +77,10 @@ const paymentModel = {
     ) => {
         try {
             const result = await pool.query( 
-                `UPDATE payments
+                `UPDATE payment
                  SET 
                     amount = $1,
-                    updated_at = $2,
+                    updated_at = $0,
                     page_month = $3,
                     year_payment = $4,
                     description = $5
@@ -100,7 +100,7 @@ const paymentModel = {
         try {
             console.log("Intentando eliminar pago con ID:", id); 
 
-            const result = await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *', [id]);
+            await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *', [id]);
 
             console.log("Resultado de la eliminación:", result);
 

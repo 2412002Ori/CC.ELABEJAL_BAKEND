@@ -13,7 +13,7 @@ export const getAllPayments = async (req , res) => {
 };
 
 export const getPaymentsById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req;
     try {
         const result = await paymentModel.getById(id);
          console.log("Resultado de la consulta:", result);
@@ -62,7 +62,7 @@ export const postPayments = async (req, res) => {
 };
 
 
-export const patchPaymentsById = async (req, res) => {
+export const patchPaymentsById = async (req) => {
     const { id } = req.params;
     const {
         amount,
