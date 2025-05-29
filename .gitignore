@@ -34,7 +34,7 @@ _testmain.go
 
 dist
 src/v*
-db.js
+db.js 
 bin/*.exe
 bin/*.log
 bin/LICENSE

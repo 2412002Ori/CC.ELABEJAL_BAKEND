@@ -8,7 +8,7 @@ export const getLoans = async (req, res) => {
 
 export const getLoansID = async (req, res) => { 
     const {id} = req.params;
-    const {rows} = await pool.query('SELECT * FROM inventory_loans WHERE loan_id = $1', [id]);
+    const {rows} = await pool.query('SELECT * FROM inventory_loans WHER loanid = $1', [id]);
 
     if (rows.length === 0) {
         return res.status(404).json({message: 'Prestamo no encontrado'});
@@ -69,7 +69,7 @@ export const createLoans = async (req, res) => {
     }
 }
 
-export const deleteLoan = async (req, res) => {
+export const deleteLoans = async (req, res) => {
     const {id} = req.params
     const data_loan = req.body
 
