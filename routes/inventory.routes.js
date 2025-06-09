@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getLoans, getLoansID, createLoans, deleteLoan, updateLoan } from "../controlers/inventories.controlers.js"
+import { getLoans, getLoansID, createLoans, deleteLoan, updateLoan } from "../controlers/inventory.controlers.js"
 
 
 const router = Router()
@@ -8,7 +8,7 @@ router.get('/loans', getLoans);
 
 router.get('/loans/:id', getLoansID)
 
-router.post('/loas', createLoans);
+router.post('/loans', createLoans);
 
 router.delete('/loans/:id', deleteLoan);
 

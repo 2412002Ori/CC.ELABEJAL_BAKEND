@@ -18,7 +18,7 @@ export const getUserID = async (req, res) => { //para que funcione el await, la 
     res.json(rows[0]);
 }
 
-export const createUsers = async (req, res) => { 
+export const createUser = async (req, res) => { 
     try{
         const data_usuario = req.body
 
@@ -28,7 +28,7 @@ export const createUsers = async (req, res) => {
             });
         }
 
-        await pool.query('INSERT INTO user (user_id, username, email, password, role_id, created_at, updated_at, status, name, lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+        await pool.query('INSERT INTO users (user_id, username, email, password, role_id, created_at, updated_at, status, name, lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
             [data_usuario.user_id, data_usuario.username, data_usuario.email, data_usuario.password, data_usuario.role_id, data_usuario.created_at, data_usuario.updated_at, data_usuario.status, data_usuario.name, data_usuario.lastname]
         );
 
@@ -65,7 +65,7 @@ export const createUsers = async (req, res) => {
     }
 }
 
-export const deleteUsers = async (req, res) => {
+export const deleteUser = async (req, res) => {
     const {id} = req.params
     const data_usuario = req.body
 

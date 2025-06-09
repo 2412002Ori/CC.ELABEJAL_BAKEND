@@ -11,6 +11,7 @@ import inventoriesRoutes from '../routes/inventories.routes.js';
 import inventoryRoutes from '../routes/inventory.routes.js';
 import paymentsRoutes from '../routes/payments.routes.js';
 import stadsticsRoutes from '../routes/stadistics.routes.js';
+import authRoutes from  '../routes/auth.routes.js'; 
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api', relocationRutes);
 app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
+app.use('/api', authRoutes);
 
 app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto', PORT);
