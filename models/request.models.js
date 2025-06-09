@@ -4,7 +4,7 @@ const requestCmodel = {
 
     getAll: async () => {
         try {
-            const result = await pool.query('SELECT * FROM contract_requests');
+            const result = await pool.query('SELECT FROM contract_requests');
             return result;
         } catch (error) {
             console.error('Error al obtener pagos:', error);

@@ -37,7 +37,7 @@ export const postRcontract = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await requestCmodel.create(
+        const result = await requestmodel.create(
             id_number,
             full_name,
             request_date,
@@ -83,7 +83,7 @@ export const putRcontractById = async (req, res) => {
     }
 };
 
-export const DeleteRcontractById = async (req, res) => {
+export const DeleteRcontractById = async (res) => {
     const { id } = req.params;
     try {
         const result = await requestCmodel.deleteRequest(id);
