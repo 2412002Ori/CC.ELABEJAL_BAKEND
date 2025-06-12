@@ -4,7 +4,7 @@ const requestCmodel = {
 
     getAll: async () => {
         try {
-            const result = await pool.query('SELECT FROM contract_requests');
+            const result = await pool.query('SELECT * FROM contract_requests ORDER BY request_date DESC');
             return result;
         } catch (error) {
             console.error('Error al obtener pagos:', error);
@@ -13,9 +13,11 @@ const requestCmodel = {
     },
 
     getById: async (id) => {
+
         try {
+
             const result = await pool.query('SELECT * FROM contract_requests WHERE id_number = $1', [id]);
-            return result;
+            return result ;
         } catch (error) {
             console.error('Error al obtener solicitud:', error);
             throw error;
@@ -86,7 +88,7 @@ const requestCmodel = {
 
     deleteRequest: async (id) => {
     try {
-        const result = await pool.query('DELETE FROM contract_requests WHERE request_id = $1 RETURNING *', [id]);
+        const result = await pool.query('DELETE FROM contract_requests WHERE id_number = $1 RETURNING *', [id]);
         return result;
     } catch (error) {
         console.error('Error al eliminar solicitud :', error);

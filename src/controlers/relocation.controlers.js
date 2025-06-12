@@ -3,7 +3,7 @@ import relocationModels from '../models/relocation.models.js';
 export const getAllRelocation = async (req , res) => {
     try {
         const result = await relocationModels.getAll();
-        res.json(result.rows);
+        res.json(result);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
         res.status(500).json({ error: 'Error al obtener contratos' });

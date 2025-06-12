@@ -4,7 +4,7 @@ import requestCmodel from '../models/request.models.js';
 export const getAllRcontracts = async (req , res) => {
     try {
         const result = await requestCmodel.getAll();
-        res.json(result.rows);
+        res.json(result);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
         res.status(500).json({ error: 'Error al obtener contratos' });
@@ -37,7 +37,7 @@ export const postRcontract = async (req, res) => {
     } = req.body;
 
     try {
-        const result = await requestmodel.create(
+        const result = await requestCmodel.create(
             id_number,
             full_name,
             request_date,
@@ -83,9 +83,10 @@ export const putRcontractById = async (req, res) => {
     }
 };
 
-export const DeleteRcontractById = async (res) => {
+export const DeleteRcontractById = async (req , res) => {
     const { id } = req.params;
     try {
+
         const result = await requestCmodel.deleteRequest(id);
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });

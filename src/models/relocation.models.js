@@ -5,7 +5,7 @@ const relocationModels = {
     getAll: async () => {
         try {
             const result = await pool.query('SELECT * FROM transfers');
-            return result;
+            return result.rows;
         } catch (error) {
             console.error('Error al obtener pagos:', error);
             throw error;
@@ -93,6 +93,7 @@ const relocationModels = {
             throw error;
         }
     }
+
 
 };
 
