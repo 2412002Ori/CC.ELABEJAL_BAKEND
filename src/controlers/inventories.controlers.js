@@ -1,4 +1,4 @@
-import pool from "../src/db.js"
+import pool from "../db.js"
 
 export const getItem = async (req, res) => {
     const {rows} = await pool.query('SELECT * FROM inventories')
