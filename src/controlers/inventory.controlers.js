@@ -1,4 +1,4 @@
-import pool from "../src/db.js"
+import pool from "../db.js"
 
 export const getLoans = async (req, res) => {
     const {rows} = await pool.query('SELECT * FROM inventory_loans')
@@ -69,7 +69,7 @@ export const createLoans = async (req, res) => {
     }
 }
 
-export const deleteLoan = async (req, res) => {
+export const deleteLoans = async (req, res) => {
     const {id} = req.params
     const data_loan = req.body
 

@@ -21,7 +21,7 @@ export const getPaymentsById = async (req, res) => {
         if ( ! result || result.length === 0) {
             return res.status(404).json({ error: 'Contrato no encontrado' });
         }
-        res.json(result[0]);
+        res.json(result);
     } catch (error) {
         console.error('Error al obtener contrato:', error);
         res.status(500).json({ error: 'Error al obtener contrato' });
@@ -62,7 +62,7 @@ export const postPayment = async (req, res) => {
 };
 
 
-export const patchPaymentsById = async (req) => {
+export const patchPaymentsById = async (req , res) => {
     const { id } = req.params;
     const {
         amount,

@@ -1,4 +1,4 @@
-import pool from "../src/db.js"
+import pool from "../db.js"
 import { validate } from "email-validator"; 
 
 export const getUser = async (req, res) => {
@@ -64,7 +64,7 @@ export const createUser = async (req, res) => {
     }
 }
 
-export const deleteUser = async (req, res) => {
+export const deleteUsers = async (req, res) => {
     const {id} = req.params
     const data_usuario = req.body
 

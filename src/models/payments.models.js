@@ -1,4 +1,4 @@
-import pool from '../src/db.js';
+import pool from '../db.js';
 
 const paymentModel = {
 
@@ -15,7 +15,7 @@ const paymentModel = {
     getById: async (id) => {
         try {
             const result = await pool.query('SELECT * FROM payments WHERE contract_number = $1', [id]);
-            return result.rows;
+            return result;
         } catch (error) {
             console.error('Error al obtener pago:', error);
             throw error;
@@ -77,7 +77,7 @@ const paymentModel = {
     ) => {
         try {
             const result = await pool.query( 
-                `UPDATE payment
+                `UPDATE payments
                  SET 
                     amount = $1,
                     updated_at = $0,
@@ -88,7 +88,7 @@ const paymentModel = {
                  RETURNING *`,
                 [ amount, updated_at , page_month, year_payment, description, id]
             );
-            return result;
+            return result; 
         } catch (error) {
             console.error('Error al crear pago:', error.message, error.stack);
             throw error;
@@ -100,7 +100,7 @@ const paymentModel = {
         try {
             console.log("Intentando eliminar pago con ID:", id); 
 
-            await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *', [id]);
+            await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *' [id]);
 
             console.log("Resultado de la eliminación:", result);
 
@@ -111,7 +111,7 @@ const paymentModel = {
 
             return result;
         } catch (error) {
-            console.error('Error al eliminar el pago:', error.message, error.stack); // Muestra el mensaje y el stack
+            console.error('Error al eliminar el pago:', error.message, error.stack); 
             throw error;
         }
     }

@@ -12,8 +12,8 @@
 //     }
 // }
 
-import { generarToken } from '../src/authentication.js';
-import pool from '../src/db.js';
+import { generarToken } from '../authentication.js';
+import pool from '../db.js';
 
 export async function login(req, res) {
     const { username, password } = req.body;
