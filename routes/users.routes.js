@@ -9,7 +9,7 @@ router.get('/users', getUser);
 
 router.get('/users/:id', getUserID);
 
-router.post('/users', authMiddleware, createUser);
+router.post('/users', createUser);
 
 router.delete('/users/:id', deleteUser);
 

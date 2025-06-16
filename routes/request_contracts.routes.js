@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllRcontracts, getRcontractById , DeleteRcontractById , postRcontract, putRcontractById} from "../controllers/request_contracts.controlers.js";
+import { getAllRcontracts, getRcontractById , DeleteRcontractById , postRcontract, putRcontractById} from "../controlers/request_contracts.controlers.js";
 
 const router = Router();
 

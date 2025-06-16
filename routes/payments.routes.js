@@ -7,7 +7,7 @@ const router = Router();
 router.post("/payments",postPayment); 
 router.get("/payments", getAllPayments);
 router.get("/payments/:id", getPaymentsById);
-router.patct("/payments/:id", patchPaymentsById); 
+router.patch("/payments/:id", patchPaymentsById); 
 router.delete ("/payments/:id", deletepaymentsById);
 
 export default router;

@@ -34,8 +34,8 @@ export const createLoans = async (req, res) => {
             });
         }
 
-        await pool.query('INSERT INTO inventory_loans (loan_id, item_id, tenant_id, loan_date, return_date, description, status) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-            [data_loan.loan_id, data_loan.item_id, data_loan.tenant_id, data_loan.loan_date, data_loan.return_date, data_loan.description, data_loan.status]
+        await pool.query('INSERT INTO inventory_loans (item_id, tenant_id, loan_date, return_date, description, status) VALUES ($1, $2, $3, $4, $5, $6)',
+            [data_loan.item_id, data_loan.tenant_id, data_loan.loan_date, data_loan.return_date, data_loan.description, data_loan.status]
         );
 
         res.status(201).json({

@@ -27,14 +27,13 @@ export const createItem = async (req, res) => {
             });
         }
 
-        await pool.query('INSERT INTO inventories (item_id, name, description) VALUES ($1, $2, $3)',
-            [data_item.item_id, data_item.name, data_item.description]
+        await pool.query('INSERT INTO inventories (name, description) VALUES ($1, $2)',
+            [data_item.name, data_item.description]
         );
 
         res.status(201).json({
             message: 'Item creado correctamente',
             Item: {
-                item_id: data_item.item_id,
                 name: data_item.name,
                 description: data_item.description
             }

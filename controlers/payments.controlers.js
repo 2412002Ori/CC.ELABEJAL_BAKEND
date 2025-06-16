@@ -28,7 +28,7 @@ export const getPaymentsById = async (req, res) => {
     }
 };
 
-export const postPayments = async (req, res) => {
+export const postPayment = async (req, res) => {
     const {
 
 		amount,

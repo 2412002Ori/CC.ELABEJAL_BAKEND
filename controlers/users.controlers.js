@@ -28,14 +28,13 @@ export const createUser = async (req, res) => {
             });
         }
 
-        await pool.query('INSERT INTO users (user_id, username, email, password, role_id, created_at, updated_at, status, name, lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-            [data_usuario.user_id, data_usuario.username, data_usuario.email, data_usuario.password, data_usuario.role_id, data_usuario.created_at, data_usuario.updated_at, data_usuario.status, data_usuario.name, data_usuario.lastname]
+        await pool.query('INSERT INTO users (username, email, password, role_id, created_at, updated_at, status, name, lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+            [data_usuario.username, data_usuario.email, data_usuario.password, data_usuario.role_id, data_usuario.created_at, data_usuario.updated_at, data_usuario.status, data_usuario.name, data_usuario.lastname]
         );
 
         res.status(201).json({
             message: 'Usuario creado correctamente',
             User: {
-                user_id: data_usuario.user_id,
                 username: data_usuario.username,
                 email: data_usuario.email,
                 role_id: data_usuario.role_id,
