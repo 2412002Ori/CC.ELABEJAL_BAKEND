@@ -1,13 +1,9 @@
-<<<<<<< Updated upstream:controlers/request_contracts.controlers.js
-import pool from "../src/db.js";
-=======
 import requestCmodel from '../models/request.models.js';
 import { validateRequestContracts } from '../schemas/contracts_R_schemas.js';
 import { validateUpdateRequestContracts } from '../schemas/contracts_R_schemas.js';
->>>>>>> Stashed changes:src/controlers/request_contracts.controlers.js
 
 
-export const getAllRcontracts = async (req , res) => {
+export const getAllRcontracts = async ( req , res) => {
     try {
         const result = await requestCmodel.getAll();
         res.json(result);
@@ -43,23 +39,6 @@ export const postRcontract = async (req, res , next ) => {
     } = req.body;
 
     try {
-<<<<<<< Updated upstream:controlers/request_contracts.controlers.js
-        const result = await pool.query(
-            `INSERT INTO contract_requests (
-                id_number, full_name, request_date, activity, phone, email
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6
-            ) RETURNING *`,
-            [
-                id_number,
-                full_name,
-                request_date,
-                activity,
-                phone,
-                email,
-
-            ]
-=======
         validateRequestContracts(req.body);
         const result = await requestCmodel.create(
             id_number,
@@ -68,7 +47,6 @@ export const postRcontract = async (req, res , next ) => {
             activity,
             phone,
             email
->>>>>>> Stashed changes:src/controlers/request_contracts.controlers.js
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {

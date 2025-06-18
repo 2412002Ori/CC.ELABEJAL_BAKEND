@@ -8,8 +8,8 @@ const router = Router();
 router.use(cors());
 
 
-router.post("/request/contracts", authMiddleware, postRcontract);
-router.get("/request/contracts", authMiddleware, getAllRcontracts);
+router.post("/request/contracts", postRcontract);
+router.get("/request/contracts", getAllRcontracts);
 router.get("/request/contracts/:id", authMiddleware, getRcontractById);
 router.put("/request/contracts/:id", authMiddleware, putRcontractById);
 router.delete("/request/contracts/:id", authMiddleware, DeleteRcontractById);

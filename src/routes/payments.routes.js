@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { postPayments , getAllPayments , getPaymentsById , patchPaymentsById , deletepaymentsById} from "../controlers/payments.controlers.js";
+import { postPayment , getAllPayments , getPaymentsById , patchPaymentsById , deletepaymentsById} from "../controlers/payments.controlers.js";
 
- 
 const router = Router();
 
-router.post("/payments",postPayments); 
+router.post("/payments", postPayment);
 router.get("/payments", getAllPayments);
 router.get("/payments/:id", getPaymentsById);
-router.patch("/payments/:id", patchPaymentsById); 
-router.delete ("/payments/:id", deletepaymentsById);
+router.patch("/payments/:id", patchPaymentsById);
+router.delete("/payments/:id", deletepaymentsById);
 
 export default router;
