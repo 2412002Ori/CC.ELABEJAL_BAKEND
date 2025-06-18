@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream:controlers/request_contracts.controlers.js
+import pool from "../src/db.js";
+=======
 import requestCmodel from '../models/request.models.js';
+import { validateRequestContracts } from '../schemas/contracts_R_schemas.js';
+import { validateUpdateRequestContracts } from '../schemas/contracts_R_schemas.js';
+>>>>>>> Stashed changes:src/controlers/request_contracts.controlers.js
 
 
 export const getAllRcontracts = async (req , res) => {
@@ -26,7 +32,7 @@ export const getRcontractById = async (req, res) => {
 };
 
 
-export const postRcontract = async (req, res) => {
+export const postRcontract = async (req, res , next ) => {
     const {
         id_number,
         full_name,
@@ -37,6 +43,24 @@ export const postRcontract = async (req, res) => {
     } = req.body;
 
     try {
+<<<<<<< Updated upstream:controlers/request_contracts.controlers.js
+        const result = await pool.query(
+            `INSERT INTO contract_requests (
+                id_number, full_name, request_date, activity, phone, email
+            ) VALUES (
+                $1, $2, $3, $4, $5, $6
+            ) RETURNING *`,
+            [
+                id_number,
+                full_name,
+                request_date,
+                activity,
+                phone,
+                email,
+
+            ]
+=======
+        validateRequestContracts(req.body);
         const result = await requestCmodel.create(
             id_number,
             full_name,
@@ -44,15 +68,18 @@ export const postRcontract = async (req, res) => {
             activity,
             phone,
             email
+>>>>>>> Stashed changes:src/controlers/request_contracts.controlers.js
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error('Error al crear solicitud de contrato:', error);
-        res.status(500).json({ error: 'Error al crear solicitud de contrato' });
+        next(error);
+
+        console.error('Error controlers', error);
+
     }
 };
 
-export const putRcontractById = async (req, res) => {
+export const putRcontractById = async (req, res, next) => {
     const { id } = req.params;
     const {
         full_name,
@@ -63,6 +90,7 @@ export const putRcontractById = async (req, res) => {
     } = req.body;
 
     try {
+        validateUpdateRequestContracts(req.body);
         const result = await requestCmodel.edit(
             id,
             full_name,
@@ -73,13 +101,12 @@ export const putRcontractById = async (req, res) => {
         );
 
         if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });
+            return res.status(404).json({ error: ' número de contrato no encontrada' });
         }
 
         res.json(result.rows[0]);
     } catch (error) {
-        console.error('Error al actualizar solicitud de contrato:', error);
-        res.status(500).json({ error: 'Error al actualizar solicitud de contrato' });
+        next(error);
     }
 };
 
