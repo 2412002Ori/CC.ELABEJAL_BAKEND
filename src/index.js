@@ -2,25 +2,14 @@ import express from 'express';
 import { PORT } from './config.js';
 import morgan from 'morgan'
 
-import contractRoutes from './routes/contract.routes.js';
-import requestContractRoutes from './routes/request_contracts.routes.js';
-import tenantRoutes from './routes/tenants.routes.js';
-import relocationRutes from './routes/relocation.rutes.js';
 import userRoutes from './routes/users.routes.js';
 import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
-import paymentsRoutes from './routes/payments.routes.js';
-import stadsticsRoutes from './routes/stadistics.routes.js';
 import loginRoutes from  './routes/login.routes.js';
 
 const app = express();
 
 app.use(express.json()); 
-
-app.use('/api', contractRoutes); 
-app.use('/api', requestContractRoutes);
-app.use('/api', tenantRoutes);
-app.use('/api', relocationRutes);
 
 // rutas cesar
 app.use('/api', userRoutes);
