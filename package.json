@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.10.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "email-validator": "^2.0.4",
@@ -24,8 +23,5 @@
     "morgan": "^1.10.0",
     "pg": "^8.16.0",
     "zod": "^3.25.64"
-  },
-  "devDependencies": {
-    "prisma": "^6.10.1"
   }
 }

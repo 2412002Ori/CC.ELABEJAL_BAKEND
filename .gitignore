@@ -47,5 +47,3 @@ bin/nvm/*
 !.gitattributes
 !.github
 tests
-
-/src/generated/prisma
