@@ -4,10 +4,14 @@
 *.so
 *.old
 node_modules/
+<<<<<<< Updated upstream
 .env
 db.js
 
 
+=======
+prisma/
+>>>>>>> Stashed changes
 # Folders
 _obj
 _test
