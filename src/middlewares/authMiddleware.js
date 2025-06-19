@@ -19,20 +19,10 @@ export function authMiddleware(req, res, next) {
 export function authorizeRoles(...roles) {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-            return res.status(403).json({ mensaje: "No tienes permisos para acceder a este recurso" });
+            return res.status(403).json({ mensaje: "No tienes permisos para acceder a este componente" });
         }
         next();
     };
 }
 
-// export default function loginMiddleware (req, res, next) {
-//     const token = req.headers['authorization']?.split(' ')[1];
-//     if (!token) return res.status(401).json({ mensaje: 'Token no proporcionado' });
-//     try {
-//         const decoded = jwt.verify(token, SECRET_KEY);
-//         req.user = decoded;
-//         next();
-//     } catch (err) {
-//         return res.status(401).json({ mensaje: 'Token inválido' });
-//     }
-// }
+

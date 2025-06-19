@@ -2,19 +2,18 @@ import { Router } from "express"
 import userValidate from "../middlewares/userValidate.middleware.js"
 import { createUserSchema, updateUserSchema } from "../schemas/schemaZodErrors.js";
 import { getUsers, getUsersID, createUser, deleteUser, updateUser } from "../controlers/users.controlers.js"
-
 import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js"
 
 const router = Router()
 
-router.get('/users', getUsers);
+router.get('/users', authMiddleware, authorizeRoles(1, 2), getUsers);
 
-router.get('/users/:id', getUsersID);
+router.get('/users/:id', authMiddleware, authorizeRoles(1, 2), getUsersID);
 
-router.post('/users', userValidate(createUserSchema), createUser);
+router.post('/users', authMiddleware, authorizeRoles(1), userValidate(createUserSchema), createUser);
 
-router.delete('/users/:id', deleteUser);
+router.delete('/users/:id', authMiddleware, authorizeRoles(1), deleteUser);
 
-router.put('/users/:id', userValidate(updateUserSchema), updateUser);
+router.put('/users/:id', authMiddleware, authorizeRoles(1), userValidate(updateUserSchema), updateUser);
 
-export default router 
+export default router;
