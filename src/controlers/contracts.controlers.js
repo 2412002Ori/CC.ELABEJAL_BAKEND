@@ -1,4 +1,5 @@
 import ContractModel from '../models/contract.models.js';
+import { validateContracts } from '../schemas/contracts_schemas.js';
 
 export const getAllContracts = async (req , res) => {
     try {
@@ -28,7 +29,7 @@ export const getContractById = async (req, res) => {
     }
 };
 
-export const postContract = async ( req, res) => {
+export const postContract = async ( req, res, next) => {
     const {
         registered_user,
         contract_number,
@@ -46,31 +47,29 @@ export const postContract = async ( req, res) => {
 
     } = req.body;
 
-    console.log("Valor de daysWork antes de JSON.stringify():", daysWork); 
 
     try {
-        const result = await ContractModel.create(  
-              registered_user,
-                contract_number,
-                id_number,
-                location_id,
-                rent_amount,
-                activity,
-                duration_description,
-                init_date,
-                end_date,
-                business_name,
-                entry_time,
-                exit_time,
-                daysWork
-                
-            
+        await validateContracts(req.body);
+        const result = await ContractModel.create(
+            registered_user,
+            contract_number,
+            id_number,
+            location_id,
+            rent_amount,
+            activity,
+            duration_description,
+            init_date,
+            end_date,
+            business_name,
+            entry_time,
+            exit_time,
+            daysWork
         );
-        res.status(201).json(result.rows[0]);
+        console.log('Resultado de la inserción:', result);
+        res.status(201).json(result);
         
-    } catch (error) {
-        console.error('Error al crear contrato:', error.message, error.stack);
-         res.status(500).json({ error: 'Error al crear contrato', details: error.message });
+    } catch (err) {
+        next(err);
     }
 };
 

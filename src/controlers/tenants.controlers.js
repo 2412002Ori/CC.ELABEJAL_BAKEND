@@ -1,4 +1,5 @@
 import tenantsModels from '../models/tenants.models.js';
+import { validateTenant } from '../schemas/tenants_shemas.js';
 
 
 export const getTenants = async (req , res) => {
@@ -26,7 +27,7 @@ export const getTenantById = async (req, res) => {
 };
 
 
-export const  postTenants = async (req, res) => {
+export const  postTenants = async (req, res, next) => {
     const {
         id_number,
         full_name,
@@ -37,6 +38,8 @@ export const  postTenants = async (req, res) => {
     } = req.body;
 
     try {
+      await validateTenant(req.body); 
+
         const result = await tenantsModels.create(
             id_number,
             full_name,
@@ -45,8 +48,9 @@ export const  postTenants = async (req, res) => {
             email,
             address
         );
-        res.status(201).json(result);
-    } catch (error) {
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        next(err);
         console.error('Error al crear solicitud de inquilino:', error);
         res.status(500).json({ error: ' ya existe ese inquilino' });
     }

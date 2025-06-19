@@ -13,6 +13,8 @@ import paymentsRoutes from './routes/payments.routes.js';
 import stadsticsRoutes from './routes/stadistics.routes.js';
 import authRoutes from  './routes/auth.routes.js'; 
 
+import errorHandler  from './middlewares/ErrorHandler.js';
+
 const app = express();
 
 app.use(morgan('dev'));
@@ -31,6 +33,8 @@ app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
 app.use('/api', authRoutes);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto', PORT);

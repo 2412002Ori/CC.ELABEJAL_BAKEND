@@ -38,6 +38,7 @@ const ContractModel = {
         daysWork 
     ) => {
         try {
+            const daysWorkJson = typeof daysWork === 'string' ? daysWork : JSON.stringify(daysWork);
             const result = await pool.query(
                 `INSERT INTO contracts (
                     registered_user, contract_number, id_number, location_id, rent_amount, activity, duration_description,
@@ -58,7 +59,7 @@ const ContractModel = {
                     business_name,
                     entry_time,
                     exit_time,
-                    daysWork
+                    daysWorkJson
                 ]
             );
             return result.rows[0];
