@@ -18,15 +18,18 @@ export async function createUser(req, res) {
     try {
         const user = await UsersModel.createUser(req.body);
         res.status(201).json(user);
+
+
+        
     } catch (error) {
         console.log(error);
         if (error?.code === "23505" && error?.constraint === 'users_pkey'){
             return res.status(409).json({message: 'Error, Ya existe la llave primaria'});
-        } //el error 409 indica conflicto
+        } 
 
         if (error?.code === "23505" && error?.constraint === 'users_username_key'){
             return res.status(409).json({message: 'Error, Ya existe este username'});
-        } //el error 409 indica conflicto
+        } 
 
         res.status(500).json({message: 'Error al crear el usuario'});
     }
@@ -45,7 +48,7 @@ export async function updateUser(req, res) {
 
         if (error?.code === "23505" && error?.constraint === 'users_username_key'){
             return res.status(409).json({message: 'Error, Ya existe este username'});
-        } //el error 409 indica conflicto
+        } 
 
         res.status(500).json({message: 'Error al actualizar el usuario'});
     }
