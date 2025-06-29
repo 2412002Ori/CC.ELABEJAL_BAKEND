@@ -16,8 +16,25 @@ const errorlist = {
         status: 400,
         message: "El número de cédula ya está registrado.",
         error: "duplicateIdNumber",
-    }
+    },
 
+    DUPLICATE_CONTRACT_NUMBER: {
+        status: 400,
+        message: "El número de contrato ya está registrado.",
+        error: "duplicateContractNumber",
+    },
+
+    DUPLICATE_PAYMENT: {
+        status: 409,
+        message: "El pago ya fue registrado anteriormente.",
+        error: "duplicatePayment",
+    },
+
+    USER_ALREADY_REGISTERED: {
+        status: 400,
+        message: "Usuario ya registrado.",
+        error: "userAlreadyRegistered",
+    },
 
 }; export default errorlist;
 
@@ -27,6 +44,7 @@ export function createError(code , details){
         message = "Error interno",
         error = "internalServerError",
     }=errorlist [code] || {};
+    console.log("createError code:", code, "status:", status);
     const err = new Error(message);
     err.status= status;
     err.name = code; 

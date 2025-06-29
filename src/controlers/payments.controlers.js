@@ -1,4 +1,5 @@
 import paymentModel from '../models/payments.models.js';
+import { paymentSchema, validateUniquePayment } from '../schemas/payments_schemas.js';
 
 export const getAllPayments = async (req , res) => {
 
@@ -7,28 +8,28 @@ export const getAllPayments = async (req , res) => {
 
         res.json(result);
     } catch (error) {
-        console.error('Error al obtener contratos:', error);
-        res.status(500).json({ error: 'Error al obtener contratos' });
+        console.error('Error al obtener pago:', error);
+        res.status(500).json({ error: 'Error al obtener pagos' });
     }
 };
 
 export const getPaymentsById = async (req, res) => {
-    const { id } = req;
+    const { id } = req.params;
     try {
         const result = await paymentModel.getById(id);
          console.log("Resultado de la consulta:", result);
 
         if ( ! result || result.length === 0) {
-            return res.status(404).json({ error: 'Contrato no encontrado' });
+            return res.status(404).json({ error: 'Pago no encontrado' });
         }
         res.json(result);
     } catch (error) {
-        console.error('Error al obtener contrato:', error);
-        res.status(500).json({ error: 'Error al obtener contrato' });
+        console.error('Error al obtener pago:', error);
+        res.status(500).json({ error: 'Error al obtener pago' });
     }
 };
 
-export const postPayment = async (req, res) => {
+export const postPayment = async (req, res , next ) => {
     const {
 
 		amount,
@@ -43,6 +44,8 @@ export const postPayment = async (req, res) => {
     } = req.body;
 
     try {
+        await paymentSchema.parseAsync(req.body);
+        await validateUniquePayment(req.body);
         const result = await paymentModel.create(
         
         amount,     
@@ -55,41 +58,36 @@ export const postPayment = async (req, res) => {
         contract_number
         );
         res.status(201).json(result);
-    } catch (error) {
-        console.error('Error al crear contrato:', error.message, error.stack);
-         res.status(500).json({ error: 'Error al crear contrato', details: error.message });
+    } catch (err) {
+        console.error("Error en postPayment:", err);
+       next(err);
     }
 };
 
 
-export const patchPaymentsById = async (req , res) => {
+export const patchPaymentsById = async (req, res, next) => {
     const { id } = req.params;
-    const {
-        amount,
-        updated_at,
-        page_month,
-        year_payment,
-        description
-    } = req.body;
+    const patchSchema = paymentSchema.partial();
 
     try {
-        const result = await paymentModel.edit(
-            id,
-            amount,
-            updated_at,
-            page_month,
-            year_payment,
-            description
-        );
+
+        await patchSchema.parseAsync(req.body);
+        const fieldsToUpdate = {};
+        for (const key of Object.keys(req.body)) {
+            if (req.body[key] !== undefined) {
+                fieldsToUpdate[key] = req.body[key];
+            }
+        }
+
+        const result = await paymentModel.edit(id, fieldsToUpdate);
 
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Pago no encontrado' });
         }
 
         res.json(result.rows[0]);
-    } catch (error) {
-        console.error('Error al actualizar pago:', error);
-        res.status(500).json({ error: 'Error al actualizar pago' });
+    } catch (err) {
+        next(err);
     }
 };
 
@@ -98,11 +96,11 @@ export const deletepaymentsById = async (req, res) => {
     try {
         const result = await paymentModel.deletepayment(id);
         if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Solicitud de contrato no encontrada' });
+            return res.status(404).json({ error: 'Pago no encontrado' });
         }
-        res.json({ message: ' pago eliminado eliminada', deleted: result.rows[0] });
+        res.json({ message: 'Pago eliminado', deleted: result.rows[0] });
     } catch (error) {
-        console.error('Error al eliminar solicitud de contrato:', error);
-        res.status(500).json({ error: 'Error al eliminar solicitud de contrato' });
+        console.error('Error al eliminar pago:', error);
+        res.status(500).json({ error: 'Error al eliminar pago' });
     }
 };

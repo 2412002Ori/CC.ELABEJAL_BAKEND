@@ -67,30 +67,20 @@ const paymentModel = {
         }
     },
 
-    edit: async (
-        id,
-        amount,
-        updated_at,
-        page_month,
-        year_payment,
-        description
-    ) => {
+        edit: async (id, fieldsToUpdate) => {
         try {
-            const result = await pool.query( 
-                `UPDATE payments
-                 SET 
-                    amount = $1,
-                    updated_at = $0,
-                    page_month = $3,
-                    year_payment = $4,
-                    description = $5
-                 WHERE payment_id = $6
-                 RETURNING *`,
-                [ amount, updated_at , page_month, year_payment, description, id]
-            );
-            return result; 
+            const keys = Object.keys(fieldsToUpdate);
+            if (keys.length === 0) throw new Error("No fields to update");
+    
+            const setClause = keys.map((key, idx) => `${key} = $${idx + 1}`).join(', ');
+            const values = keys.map(key => fieldsToUpdate[key]);
+            values.push(id);
+    
+            const query = `UPDATE payments SET ${setClause} WHERE payment_id = $${keys.length + 1} RETURNING *`;
+            const result = await pool.query(query, values);
+            return result;
         } catch (error) {
-            console.error('Error al crear pago:', error.message, error.stack);
+            console.error('Error al editar pago:', error.message, error.stack);
             throw error;
         }
     },
@@ -100,7 +90,7 @@ const paymentModel = {
         try {
             console.log("Intentando eliminar pago con ID:", id); 
 
-            await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *' [id]);
+            await pool.query('DELETE FROM payments WHERE payment_id = $1 RETURNING *' , [id]);
 
             console.log("Resultado de la eliminación:", result);
 
@@ -114,7 +104,22 @@ const paymentModel = {
             console.error('Error al eliminar el pago:', error.message, error.stack); 
             throw error;
         }
+    },
+
+    
+    findDuplicate: async ({ amount, payment_date, contract_number }) => {
+            try {
+                const result = await pool.query(
+                    `SELECT * FROM payments WHERE amount = $1 AND payment_date = $2 AND contract_number = $3`,
+                    [amount, payment_date, contract_number]
+                );
+                return result.rows[0]; 
+            } catch (error) {
+                console.error('Error al buscar pago duplicado:', error);
+                throw error;
+            }
     }
+    
 }; 
 export default paymentModel;
 
