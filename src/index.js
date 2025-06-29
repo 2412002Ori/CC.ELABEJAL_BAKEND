@@ -11,7 +11,7 @@ import stadsticsRoutes from './routes/stadistics.routes.js';
 import userRoutes from './routes/users.routes.js';
 import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
-import loginRoutes from  './routes/login.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
@@ -30,9 +30,8 @@ app.use('/api', relocationRutes);
 app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
-app.use('/api', loginRoutes);
+app.use('/api', authRoutes);
 
 app.listen(PORT, () => {
   console.log('Servidor escuchando en el puerto', PORT);
 });
-

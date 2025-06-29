@@ -1,19 +1,18 @@
 import { Router } from "express"
-import loanValidate from "../middlewares/inventory_loansValidate.middleware.js"
-import { createLoanSchema, updateLoanSchema } from "../schemas/schemaZodErrors.js";
-import { getLoans, getLoansID, createLoans, deleteLoan, updateLoan } from "../controlers/inventory.controlers.js"
-import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js"
+import { getLoans, getLoansID, createLoans, deleteLoans, updateLoan } from "../controlers/inventory.controlers.js"
+
 
 const router = Router()
 
-router.get('/loans', authMiddleware, authorizeRoles(1, 2), getLoans);
+router.get('/loans', getLoans);
 
-router.get('/loans/:id', authMiddleware, authorizeRoles(1, 2), getLoansID);
+router.get('/loans/:id', getLoansID)
 
-router.post('/loans', authMiddleware, authorizeRoles(1), loanValidate(createLoanSchema), createLoans);
+router.post('/loans', createLoans);
 
-router.delete('/loans/:id', authMiddleware, authorizeRoles(1), deleteLoan);
+router.delete('/loans/:id', deleteLoans);
 
-router.put('/loans/:id', authMiddleware, authorizeRoles(1), loanValidate(updateLoanSchema), updateLoan);
+router.put('/loans/:id', updateLoan);
 
-export default router;
+
+export default router 
