@@ -4,15 +4,10 @@
 *.so
 *.old
 node_modules/
-<<<<<<< Updated upstream
 .env
 db.js
 prisma/
 
-=======
-prisma/
->>>>>>> Stashed changes
-# Folders
 _obj
 _test
 bin
@@ -51,3 +46,5 @@ bin/nvm/*
 !.gitattributes
 !.github
 tests
+
+/src/generated/prisma
