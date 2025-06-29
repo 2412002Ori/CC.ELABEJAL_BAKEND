@@ -1,28 +1,37 @@
-import pool from "../db.js";
+import prisma from "../lib/prisma.js";
 
 const tenantsModels = {
 
     getAll: async () => {
         try {
-            const result = await pool.query('SELECT * FROM tenants ');
-            return result;
+            const tenants = await prisma.tenants.findMany({
+                include: {
+                    contracts: true
+                }
+            });
+            return { rows: tenants };
         } catch (error) {
-            console.error('Error al obtener pagos:', error);
+            console.error('Error al obtener inquilinos:', error);
             throw error;
         }
     },
 
     getById: async (id) => {
         try {
-            const result = await pool.query('SELECT * FROM tenants WHERE id_number = $1', [id]);
-            return result;
+            const tenant = await prisma.tenants.findUnique({
+                where: { id_number: id },
+                include: {
+                    contracts: true
+                }
+            });
+            return { rows: tenant ? [tenant] : [] };
         } catch (error) {
-            console.error('Error al obtener el inquilino :', error);
+            console.error('Error al obtener el inquilino:', error);
             throw error;
         }
     },
 
-   create: async (
+    create: async (
         id_number,
         full_name,
         age,
@@ -31,25 +40,19 @@ const tenantsModels = {
         address,
     ) => {
         try {
-            const result = await pool.query(
-                `INSERT INTO tenants (
-                id_number, full_name, age, phone, email, address
-            ) VALUES (
-                $1, $2, $3, $4, $5, $6
-            ) RETURNING *`,
-            [
-                id_number,
-                full_name,
-                age,
-                phone,
-                email,
-                address
-
-            ]
-        );
-            return result;
+            const tenant = await prisma.tenants.create({
+                data: {
+                    id_number,
+                    full_name,
+                    age,
+                    phone,
+                    email,
+                    address
+                }
+            });
+            return { rows: [tenant] };
         } catch (error) {
-            console.error('Error al crear pago:', error.message, error.stack);
+            console.error('Error al crear inquilino:', error.message, error.stack);
             throw error;
         }
     },
@@ -63,24 +66,34 @@ const tenantsModels = {
         address
     ) => {
         try {
-            const result = await pool.query(
-            `UPDATE tenants
-             SET full_name = $1,
-                 age = $2,
-                 phone = $3,
-                 email = $4,
-                 address = $5
-             WHERE id_number = $6
-             RETURNING *`,
-            [full_name, age, phone, email, address, id]
-        );
-            return result;
+            const tenant = await prisma.tenants.update({
+                where: { id_number: id },
+                data: {
+                    full_name,
+                    age,
+                    phone,
+                    email,
+                    address
+                }
+            });
+            return { rows: [tenant] };
         } catch (error) {
-            console.error('Error al editar el pago:', error.message, error.stack);
+            console.error('Error al editar el inquilino:', error.message, error.stack);
+            throw error;
+        }
+    },
+
+    delete: async (id) => {
+        try {
+            const tenant = await prisma.tenants.delete({
+                where: { id_number: id }
+            });
+            return { rows: [tenant] };
+        } catch (error) {
+            console.error('Error al eliminar el inquilino:', error.message, error.stack);
             throw error;
         }
     }
-
 };
 
 export default tenantsModels;

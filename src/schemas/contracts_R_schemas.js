@@ -19,6 +19,7 @@ export const createrequestContracts = z.object({
   activity: z
     .string()
     .min(3, "La actividad debe tener al menos 3 caracteres"),
+    
   email: z
     .string()
     .email("El correo electrónico no es válido"),
