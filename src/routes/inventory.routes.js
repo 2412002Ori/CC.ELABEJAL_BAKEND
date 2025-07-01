@@ -1,6 +1,6 @@
 import { Router } from "express"
 import loanValidate from "../middlewares/inventory_loansValidate.middleware.js"
-import { createLoanSchema, updateLoanSchema } from "../schemas/schemaZodErrors.js";
+import { createLoanSchema, updateLoanSchema } from "../schemas/schemaErrors.js";
 import { getLoans, getLoansID, createLoans, deleteLoan, updateLoan } from "../controlers/inventory.controlers.js"
 import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js"
 

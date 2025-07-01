@@ -1,6 +1,6 @@
 import { Router } from "express"
 import userValidate from "../middlewares/userValidate.middleware.js"
-import { createUserSchema, updateUserSchema } from "../schemas/schemaZodErrors.js";
+import { createUserSchema, updateUserSchema } from "../schemas/schemaErrors.js";
 import { getUsers, getUsersID, createUser, deleteUser, updateUser } from "../controlers/users.controlers.js"
 import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js"
 
