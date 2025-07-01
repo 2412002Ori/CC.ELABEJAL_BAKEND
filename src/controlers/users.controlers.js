@@ -1,5 +1,4 @@
 import pool from "../db.js"
-import { validate } from "email-validator"; 
 import { UsersModel } from "../models/users.models.js";
 
 export const getUser = async (req, res) => {
