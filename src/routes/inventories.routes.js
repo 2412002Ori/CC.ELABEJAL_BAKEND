@@ -1,6 +1,6 @@
 import { Router } from "express"
 import itemValidate from "../middlewares/inventoriesValidate.middleware.js";
-import { createItemSchema, updateItemSchema } from "../schemas/schemaZodErrors.js";
+import { createItemSchema, updateItemSchema } from "../schemas/schemaErrors.js";
 import { getItems, getItemID, createItem, updateItem, deleteItem } from "../controlers/inventories.controlers.js"
 import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js"
 
