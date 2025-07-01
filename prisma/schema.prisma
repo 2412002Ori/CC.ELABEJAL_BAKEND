@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model areas {
+  area_id      Int            @id @default(autoincrement())
+  name         String         @unique @db.VarChar(50)
+  description  String?
+  locations    locations[]
+  maintenances maintenances[]
+}
+
+model contract_requests {
+  request_id   Int      @id @default(autoincrement())
+  id_number    String   @unique(map: "unique_id_number") @db.VarChar(20)
+  full_name    String   @db.VarChar(100)
+  request_date DateTime @db.Date
+  activity     String?
+  email        String?  @db.VarChar
+  phone        String?  @db.VarChar
+}
+
+model contracts {
+  contract_id          Int        @id @default(autoincrement())
+  registered_user      Int?
+  contract_number      String     @unique @db.VarChar(50)
+  location_id          Int?
+  rent_amount          Decimal?   @db.Decimal(10, 2)
+  activity             String?
+  duration_description String?
+  init_date            DateTime?  @db.Date
+  end_date             DateTime?  @db.Date
+  business_name        String?    @db.VarChar(100)
+  entry_time           DateTime?  @db.Time(6)
+  exit_time            DateTime?  @db.Time(6)
+  id_number            String?    @db.VarChar
+  daysWork             Json?
+  locations            locations? @relation(fields: [location_id], references: [location_id], onDelete: NoAction, onUpdate: NoAction)
+  users                users?     @relation(fields: [registered_user], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  tenants              tenants?   @relation(fields: [id_number], references: [id_number], onDelete: Restrict, map: "fk_contracts_tenant_id_to_id_number")
+  fines                fines[]
+  payments             payments[]
+}
+
+model fines {
+  fine_id      Int        @id @default(autoincrement())
+  contract_id  Int?
+  amount       Decimal?   @db.Decimal(10, 2)
+  payment_date DateTime?  @db.Date
+  reason       String?
+  created_at   DateTime?  @db.Timestamp(6)
+  updated_at   DateTime?  @db.Timestamp(6)
+  contracts    contracts? @relation(fields: [contract_id], references: [contract_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model inventories {
+  item_id         Int               @id @default(autoincrement())
+  name            String            @db.VarChar(100)
+  description     String?
+  inventory_loans inventory_loans[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model inventory_loans {
+  loan_id     Int          @id @default(autoincrement())
+  item_id     Int?
+  loan_date   DateTime?    @db.Date
+  return_date DateTime?    @db.Date
+  description String?
+  status      Boolean?
+  number_id   String?      @db.VarChar
+  inventories inventories? @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model locations {
+  location_id Int         @id @default(autoincrement())
+  area_id     Int?
+  description String?
+  contracts   contracts[]
+  areas       areas?      @relation(fields: [area_id], references: [area_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model maintenances {
+  maintenance_id   Int       @id @default(autoincrement())
+  area_id          Int?
+  name             String?   @db.VarChar(100)
+  description      String?
+  maintenance_date DateTime? @db.Date
+  areas            areas?    @relation(fields: [area_id], references: [area_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model payments {
+  payment_id      Int         @id @default(autoincrement())
+  amount          Decimal?    @db.Decimal(10, 2)
+  payment_date    DateTime?   @db.Date
+  created_at      DateTime?   @db.Timestamp(6)
+  updated_at      DateTime?   @db.Timestamp(6)
+  page_month      month_name?
+  year_payment    Int?
+  description     String?
+  contract_number String?     @db.VarChar
+  contracts       contracts?  @relation(fields: [contract_number], references: [contract_number], onDelete: NoAction, onUpdate: NoAction, map: "contracts")
+}
+
+model roles {
+  role_id   Int     @id @default(autoincrement())
+  role_name String  @db.VarChar(100)
+  users     users[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tenants {
+  tenant_id Int         @id @default(autoincrement())
+  id_number String      @unique @db.VarChar(20)
+  full_name String      @db.VarChar(100)
+  age       Int
+  phone     String?     @db.VarChar(20)
+  email     String?     @db.VarChar(100)
+  address   String?
+  contracts contracts[]
+}
+
+model transfers {
+  transfer_id   Int      @id @default(autoincrement())
+  reason        String?
+  transfer_date DateTime @db.Date
+  id_number     String?  @db.VarChar
+  new_contract  String?  @db.VarChar
+  old_contract  String?  @db.VarChar
+}
+
+model users {
+  user_id    Int          @id @default(autoincrement())
+  username   String       @unique @db.VarChar(100)
+  email      String?      @db.VarChar(100)
+  password   String?      @db.VarChar(255)
+  role_id    Int?
+  created_at DateTime     @db.Timestamp(6)
+  updated_at DateTime     @db.Timestamp(6)
+  status     user_status?
+  name_      String?      @map("name ") @db.VarChar
+  lastname   String?      @db.VarChar
+  contracts  contracts[]
+  roles      roles?       @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum month_name {
+  Enero
+  Febrero
+  Marzo
+  Abril
+  Mayo
+  Junio
+  Julio
+  Agosto
+  Septiembre
+  Octubre
+  Noviembre
+  Diciembre
+}
+
+enum user_status {
+  active
+  inactive
+  pending
+}
