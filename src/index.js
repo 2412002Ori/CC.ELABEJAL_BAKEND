@@ -1,6 +1,7 @@
 import express from 'express';
 import { PORT } from './config.js';
 import morgan from 'morgan'
+import 'dotenv/config';
 
 import contractRoutes from './routes/contract.routes.js';
 import requestContractRoutes from './routes/request_contracts.routes.js';
