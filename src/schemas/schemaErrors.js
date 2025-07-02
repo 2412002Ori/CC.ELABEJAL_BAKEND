@@ -18,7 +18,7 @@ const ERROR_MESSAGES = {
     ROLE_NOTEMPTY: 'Role_id no puede estar vacio',
     ROLE_POSITIVE: 'Role_id deber ser positivo',
     ROLE_INT: 'Deber ser un numero entero',
-    ROLE_INVALID: 'Role_id invalido, debe ser 1 o 2',
+    ROLE_INVALID: 'Role_id invalido, debe estar entre 1 o 3',
     NAME_REQUIRED: 'Nombre requerido',
     NAME_NOTEMPTY: 'Nombre no puede estar vacio',
     LASTNAME_REQUIRED: 'Apellido requerido',
@@ -66,7 +66,7 @@ export const createUserSchema = z.object({
         email: z.string({ required_error: ERROR_MESSAGES.EMAIL_REQUIRRED }).min(1,{ message: ERROR_MESSAGES.EMAIL_NOTEMPTY }).email({ message: ERROR_MESSAGES.EMAIL_INVALID }),
         password: z.string({ required_error: ERROR_MESSAGES.PASSWORD_REQUIRED }).min(1,{ message: ERROR_MESSAGES.PASSWORD_NOTEMPTY }).min(6, { message: ERROR_MESSAGES.PASSWORD_INVALID }),
         role_id: z.number({ required_error: ERROR_MESSAGES.ROLE_REQUIRED }).min(1,{ message: ERROR_MESSAGES.ROLE_NOTEMPTY }).positive({ message: ERROR_MESSAGES.ROLE_POSITIVE })
-        .int({message: ERROR_MESSAGES.ROLE_INT }).refine((val) => val === 1 || val === 2, { message: ERROR_MESSAGES.ROLE_INVALID }),
+        .int({message: ERROR_MESSAGES.ROLE_INT }).refine((val) => val === 1 || val === 2 || val === 3, { message: ERROR_MESSAGES.ROLE_INVALID }),
         name: z.string({ required_error: ERROR_MESSAGES.NAME_REQUIRED }).min(1,{ message: ERROR_MESSAGES.NAME_NOTEMPTY }),
         lastname: z.string({ required_error: ERROR_MESSAGES.LASTNAME_REQUIRED }).min(1,{ message: ERROR_MESSAGES.LASTNAME_NOTEMPTY }), 
         status: z.string({ required_error: ERROR_MESSAGES.STATUS_REQUIRED}).min(1,{ message: ERROR_MESSAGES.STATUS_NOTEMPTY }).refine((val) => val === "active" || val === "inactive" || val === "pending", { message: ERROR_MESSAGES.STATUS_INVALID })
