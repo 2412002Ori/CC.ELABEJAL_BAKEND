@@ -12,9 +12,9 @@ import userRoutes from './routes/users.routes.js';
 import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
 import loginRoutes from  './routes/login.routes.js';
-import authRoutes from './routes/auth.routes.js';
 import errorHandler  from './middlewares/ErrorHandler.js';
 
+import cors from 'cors';
 const app = express();
 app.use(cors());
 
@@ -35,7 +35,6 @@ app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
 app.use('/api', loginRoutes);
-app.use('/api', authRoutes);
 
 app.use(errorHandler);
 
