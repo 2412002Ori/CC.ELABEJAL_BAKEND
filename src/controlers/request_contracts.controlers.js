@@ -1,4 +1,4 @@
-import requestCmodel from '../models/request.models.js';
+import requestCmodel from '../models/request_contracts.models.js';
 import { validateRequestContracts } from '../schemas/contracts_R_schemas.js';
 import { validateUpdateRequestContracts } from '../schemas/contracts_R_schemas.js';
 
@@ -6,7 +6,7 @@ import { validateUpdateRequestContracts } from '../schemas/contracts_R_schemas.j
 export const getAllRcontracts = async ( req , res) => {
     try {
         const result = await requestCmodel.getAll();
-        res.json(result);
+        res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener contratos:', error);
         res.status(500).json({ error: 'Error al obtener contratos' });

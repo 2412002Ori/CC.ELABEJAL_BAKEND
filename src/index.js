@@ -1,7 +1,10 @@
 import express from 'express';
 import { PORT } from './config.js';
 import morgan from 'morgan'
+<<<<<<< Updated upstream
 import 'dotenv/config';
+=======
+>>>>>>> Stashed changes
 import cors from 'cors';
 
 import contractRoutes from './routes/contract.routes.js';
@@ -13,7 +16,12 @@ import stadsticsRoutes from './routes/stadistics.routes.js';
 import userRoutes from './routes/users.routes.js';
 import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
+<<<<<<< Updated upstream
 import loginRoutes from  './routes/login.routes.js';
+=======
+import authRoutes from './routes/auth.routes.js';
+import locationsRoutes from './routes/locations.routes.js';
+>>>>>>> Stashed changes
 
 import errorHandler  from './middlewares/ErrorHandler.js';
 
@@ -21,7 +29,8 @@ const app = express();
 app.use(cors());
 
 app.use(morgan('dev'));
-app.use(express.json()); 
+app.use(express.json());
+app.use(cors()); 
 
 //rutas oriana 
 app.use('/api', paymentsRoutes);
@@ -35,10 +44,17 @@ app.use('/api', relocationRutes);
 app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
+<<<<<<< Updated upstream
 app.use('/api', loginRoutes);
+=======
+app.use('/api', authRoutes);
+app.use('/api', locationsRoutes);
+>>>>>>> Stashed changes
 
 app.use(errorHandler);
 
 app.listen(PORT, () => {
+  // Limpiar la terminal al iniciar el servidor
+  console.clear();
   console.log('Servidor escuchando en el puerto', PORT);
 });

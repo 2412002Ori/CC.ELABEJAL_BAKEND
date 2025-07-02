@@ -4,9 +4,9 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
-router.post("/Relocation", authMiddleware, postRelocation);
-router.get("/Relocation", authMiddleware, getAllRelocation);
-router.get("/Relocation/:id", authMiddleware, getRelocationById);
-router.put("/Relocation/:id", authMiddleware, putRelocationById);
+router.post("/Relocation",  postRelocation);
+router.get("/Relocation", getAllRelocation);
+router.get("/Relocation/:id", getRelocationById);
+router.put("/Relocation/:id", putRelocationById);
 
 export default router;

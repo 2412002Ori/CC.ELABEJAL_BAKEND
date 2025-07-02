@@ -86,3 +86,17 @@ export const  putTenantById = async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar solicitud de contrato' });
     }
 };
+
+export const deleteTenantById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await tenantsModels.delete(id);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Inquilino no encontrado' });
+        }
+        res.json({ message: 'Inquilino eliminado correctamente', tenant: result.rows[0] });
+    } catch (error) {
+        console.error('Error al eliminar el inquilino:', error);
+        res.status(500).json({ error: 'Error al eliminar el inquilino' });
+    }
+};

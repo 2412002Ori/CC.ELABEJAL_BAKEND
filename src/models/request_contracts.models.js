@@ -19,7 +19,7 @@ const requestCmodel = {
     getById: async (id) => {
         try {
             const request = await prisma.contract_requests.findUnique({
-                where: { id_number: id }
+                where: { request_id: parseInt(id) }
             });
             return { rows: request ? [request] : [] };
         } catch (error) {
@@ -64,7 +64,7 @@ const requestCmodel = {
     ) => {
         try {
             const request = await prisma.contract_requests.update({
-                where: { id_number: id },
+                where: { request_id: parseInt(id) },
                 data: {
                     full_name,
                     request_date: request_date ? new Date(request_date) : null,
@@ -83,7 +83,7 @@ const requestCmodel = {
     deleteRequest: async (id) => {
         try {
             const request = await prisma.contract_requests.delete({
-                where: { id_number: id }
+                where: { request_id: parseInt(id) }
             });
             return { rows: [request] };
         } catch (error) {

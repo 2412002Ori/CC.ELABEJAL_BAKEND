@@ -4,10 +4,12 @@
 *.so
 *.old
 node_modules/
-.env
+
 db.js
 prisma/
 
+package-lock.json
+package.json
 _obj
 _test
 bin
