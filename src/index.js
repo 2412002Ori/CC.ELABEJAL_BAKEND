@@ -1,11 +1,6 @@
 import express from 'express';
 import { PORT } from './config.js';
 import morgan from 'morgan'
-<<<<<<< Updated upstream
-import 'dotenv/config';
-=======
->>>>>>> Stashed changes
-import cors from 'cors';
 
 import contractRoutes from './routes/contract.routes.js';
 import requestContractRoutes from './routes/request_contracts.routes.js';
@@ -16,13 +11,8 @@ import stadsticsRoutes from './routes/stadistics.routes.js';
 import userRoutes from './routes/users.routes.js';
 import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
-<<<<<<< Updated upstream
 import loginRoutes from  './routes/login.routes.js';
-=======
 import authRoutes from './routes/auth.routes.js';
-import locationsRoutes from './routes/locations.routes.js';
->>>>>>> Stashed changes
-
 import errorHandler  from './middlewares/ErrorHandler.js';
 
 const app = express();
@@ -44,12 +34,8 @@ app.use('/api', relocationRutes);
 app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
-<<<<<<< Updated upstream
 app.use('/api', loginRoutes);
-=======
 app.use('/api', authRoutes);
-app.use('/api', locationsRoutes);
->>>>>>> Stashed changes
 
 app.use(errorHandler);
 
