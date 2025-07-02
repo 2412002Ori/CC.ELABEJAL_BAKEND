@@ -6,7 +6,7 @@ export function generarToken(payload) {
     return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 }
 
-// export function verificarToken(token) {
+// export default function verificarToken(token) {
 //     try {
 //         return jwt.verify(token, SECRET_KEY);
 //     } catch (err) {
