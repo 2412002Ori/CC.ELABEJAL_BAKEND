@@ -16,6 +16,12 @@ export async function getUsersID(req, res) {
 
 export async function createUser(req, res) {
     try {
+        if (!req.body.created_at) {
+            req.body.created_at = new Date().toISOString();
+        }
+        if (!req.body.updated_at) {
+            req.body.updated_at = new Date().toISOString();
+        }
         const user = await UsersModel.createUser(req.body);
         res.status(201).json(user);
 

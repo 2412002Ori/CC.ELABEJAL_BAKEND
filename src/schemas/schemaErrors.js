@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { partial } from 'zod/v4-mini';
-import { validItemId } from '../utils/dbValidators.js';
-import { validTenantId } from '../utils/dbValidators.js';
+import { validItemId, validTenantId, isEmailTaken } from '../utils/dbValidators.js';
 
 const ERROR_MESSAGES = {
     //USER ERRORS
@@ -11,6 +10,7 @@ const ERROR_MESSAGES = {
     EMAIL_REQUIRRED: 'Email es requerido',
     EMAIL_NOTEMPTY: 'Email no puede estar vacio',
     EMAIL_INVALID: 'Debe ser un email válido',
+    EMAIL_MUST_BE_UNIQUE: 'El correo electrónico ya está registrado',
     PASSWORD_REQUIRED: 'Contraseña requerida',
     PASSWORD_NOTEMPTY: 'Contraseña no puede estar vacio',
     PASSWORD_INVALID: 'Contraseña invalida, debe terner minimo 6 caracteres',
@@ -63,7 +63,11 @@ const ERROR_MESSAGES = {
 export const createUserSchema = z.object({
     body: z.object({
         username: z.string({ required_error: ERROR_MESSAGES.USERNAME_REQUIRED }).min(1,{ message: ERROR_MESSAGES.USERNAME_NOTEMPTY }).min(4, { message: ERROR_MESSAGES.USERNAME_INVALID }),
-        email: z.string({ required_error: ERROR_MESSAGES.EMAIL_REQUIRRED }).min(1,{ message: ERROR_MESSAGES.EMAIL_NOTEMPTY }).email({ message: ERROR_MESSAGES.EMAIL_INVALID }),
+        email: z.string({ required_error: ERROR_MESSAGES.EMAIL_REQUIRRED }).min(1,{ message: ERROR_MESSAGES.EMAIL_NOTEMPTY }).email({ message: ERROR_MESSAGES.EMAIL_INVALID })
+        .refine(
+                async (email) => !(await isEmailTaken(email)),
+                { message: ERROR_MESSAGES.EMAIL_MUST_BE_UNIQUE }
+            ),
         password: z.string({ required_error: ERROR_MESSAGES.PASSWORD_REQUIRED }).min(1,{ message: ERROR_MESSAGES.PASSWORD_NOTEMPTY }).min(6, { message: ERROR_MESSAGES.PASSWORD_INVALID }),
         role_id: z.number({ required_error: ERROR_MESSAGES.ROLE_REQUIRED }).min(1,{ message: ERROR_MESSAGES.ROLE_NOTEMPTY }).positive({ message: ERROR_MESSAGES.ROLE_POSITIVE })
         .int({message: ERROR_MESSAGES.ROLE_INT }).refine((val) => val === 1 || val === 2 || val === 3, { message: ERROR_MESSAGES.ROLE_INVALID }),
@@ -76,7 +80,11 @@ export const createUserSchema = z.object({
 export const updateUserSchema = z.object({
     body: z.object({
         username: z.string({ required_error: ERROR_MESSAGES.USERNAME_REQUIRED }).min(1,{ message: ERROR_MESSAGES.USERNAME_NOTEMPTY }).min(4, { message: ERROR_MESSAGES.USERNAME_INVALID }),
-        email: z.string({ required_error: ERROR_MESSAGES.EMAIL_REQUIRRED }).min(1,{ message: ERROR_MESSAGES.EMAIL_NOTEMPTY }).email({ message: ERROR_MESSAGES.EMAIL_INVALID }),
+        email: z.string({ required_error: ERROR_MESSAGES.EMAIL_REQUIRRED }).min(1,{ message: ERROR_MESSAGES.EMAIL_NOTEMPTY }).email({ message: ERROR_MESSAGES.EMAIL_INVALID })
+        .refine(
+                async (email) => !(await isEmailTaken(email)),
+                { message: ERROR_MESSAGES.EMAIL_MUST_BE_UNIQUE }
+            ),
         password: z.string({ required_error: ERROR_MESSAGES.PASSWORD_REQUIRED }).min(1,{ message: ERROR_MESSAGES.PASSWORD_NOTEMPTY }).min(6, { message: ERROR_MESSAGES.PASSWORD_INVALID }),
         role_id: z.number({ required_error: ERROR_MESSAGES.ROLE_REQUIRED }).min(1,{ message: ERROR_MESSAGES.ROLE_NOTEMPTY }).positive({ message: ERROR_MESSAGES.ROLE_POSITIVE })
         .int({message: ERROR_MESSAGES.ROLE_INT }).refine((val) => val === 1 || val === 2, { message: ERROR_MESSAGES.ROLE_INVALID }),
