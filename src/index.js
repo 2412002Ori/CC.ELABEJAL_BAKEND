@@ -15,6 +15,8 @@ import inventoryRoutes from './routes/inventory.routes.js';
 import loginRoutes from  './routes/login.routes.js';
 import errorHandler  from './middlewares/ErrorHandler.js';
 import locationsRoutes from './routes/locations.routes.js';
+import finesRoutes from './routes/fines.routes.js';
+import pruebasRoutes from './routes/pruebas.routes.js';
 
 import cors from 'cors';
 const app = express();
@@ -31,6 +33,7 @@ app.use('/api', contractRoutes);
 app.use('/api', requestContractRoutes);
 app.use('/api', tenantRoutes);
 app.use('/api', relocationRutes);
+app.use('/api', finesRoutes);
 
 // rutas cesar
 app.use('/api', userRoutes);
@@ -38,6 +41,7 @@ app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
 app.use('/api', loginRoutes);
 app.use('/api', locationsRoutes);
+app.use('/api', pruebasRoutes);
 
 app.use(errorHandler);
 
