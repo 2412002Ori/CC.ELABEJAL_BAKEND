@@ -33,6 +33,7 @@ const tenantsModels = {
 
     create: async (
         id_number,
+        rif,
         full_name,
         age,
         phone,
@@ -43,6 +44,7 @@ const tenantsModels = {
             const tenant = await prisma.tenants.create({
                 data: {
                     id_number,
+                    rif,
                     full_name,
                     age,
                     phone,
@@ -59,6 +61,7 @@ const tenantsModels = {
 
     edit: async (
         id,
+        rif,
         full_name,
         age,
         phone,
@@ -69,6 +72,7 @@ const tenantsModels = {
             const tenant = await prisma.tenants.update({
                 where: { id_number: id },
                 data: {
+                    rif,
                     full_name,
                     age,
                     phone,
@@ -83,17 +87,7 @@ const tenantsModels = {
         }
     },
 
-    delete: async (id) => {
-        try {
-            const tenant = await prisma.tenants.delete({
-                where: { id_number: id }
-            });
-            return { rows: [tenant] };
-        } catch (error) {
-            console.error('Error al eliminar el inquilino:', error.message, error.stack);
-            throw error;
-        }
-    }
+
 };
 
 export default tenantsModels;

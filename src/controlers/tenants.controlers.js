@@ -30,6 +30,7 @@ export const getTenantById = async (req, res) => {
 export const  postTenants = async (req, res, next) => {
     const {
         id_number,
+        rif,
         full_name,
         age,
         phone,
@@ -42,6 +43,7 @@ export const  postTenants = async (req, res, next) => {
 
         const result = await tenantsModels.create(
             id_number,
+            rif,
             full_name,
             age,
             phone,
@@ -51,7 +53,7 @@ export const  postTenants = async (req, res, next) => {
         res.status(201).json(result.rows[0]);
     } catch (err) {
         next(err);
-        console.error('Error al crear solicitud de inquilino:', error);
+        console.error('Error al crear solicitud de inquilino:', err);
         res.status(500).json({ error: ' ya existe ese inquilino' });
     }
 };
@@ -59,6 +61,7 @@ export const  postTenants = async (req, res, next) => {
 export const  putTenantById = async (req, res) => {
     const { id } = req.params;
     const {
+        rif,
         full_name,
         age,
         phone,
@@ -69,6 +72,7 @@ export const  putTenantById = async (req, res) => {
     try {
         const result = await tenantsModels.edit(
             id,
+            rif,
             full_name,
             age,
             phone,
@@ -87,16 +91,4 @@ export const  putTenantById = async (req, res) => {
     }
 };
 
-export const deleteTenantById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const result = await tenantsModels.delete(id);
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Inquilino no encontrado' });
-        }
-        res.json({ message: 'Inquilino eliminado correctamente', tenant: result.rows[0] });
-    } catch (error) {
-        console.error('Error al eliminar el inquilino:', error);
-        res.status(500).json({ error: 'Error al eliminar el inquilino' });
-    }
-};
+
