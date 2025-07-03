@@ -4,10 +4,10 @@ import { postPayment , getAllPayments , getPaymentsById , patchPaymentsById , de
 
 const router = Router();
 
-router.post("/payments", authMiddleware, authorizeRoles(1, 3), postPayment);
-router.get("/payments", authMiddleware, authorizeRoles(1, 3), getAllPayments);
-router.get("/payments/:id", authMiddleware, authorizeRoles(1, 3), getPaymentsById);
-router.patch("/payments/:id", authMiddleware, authorizeRoles(1, 3), patchPaymentsById);
-router.delete("/payments/:id", authMiddleware, authorizeRoles(1, 3), deletepaymentsById);
+router.post("/payments", authMiddleware, authorizeRoles(1, 2, 3), postPayment);
+router.get("/payments", authMiddleware, authorizeRoles(1, 2, 3), getAllPayments);
+router.get("/payments/:id", authMiddleware, authorizeRoles(1, 2, 3), getPaymentsById);
+router.patch("/payments/:id", authMiddleware, authorizeRoles(1, 2, 3), patchPaymentsById);
+router.delete("/payments/:id", authMiddleware, authorizeRoles(1, 2, 3), deletepaymentsById);
 
 export default router;

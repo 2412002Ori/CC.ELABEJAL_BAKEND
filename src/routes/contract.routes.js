@@ -10,9 +10,9 @@ const router = Router();
 // router.get("/contracts/:id", authMiddleware ,  getContractById);
 
 // Rutas sin autenticación (para desarrollo)
-router.post("/contracts", authorizeRoles(1), postContract);
-router.get("/contracts", authorizeRoles(1), getAllContracts);
-router.get("/contracts/:id", authorizeRoles(1), getContractById);
+router.post("/contracts", authMiddleware, authorizeRoles(1), postContract);
+router.get("/contracts", authMiddleware, authorizeRoles(1), getAllContracts);
+router.get("/contracts/:id", authMiddleware, authorizeRoles(1), getContractById);
 
 
 export default router;

@@ -122,7 +122,7 @@ const stadisticsModels = {
                     payment_id: true
                 }
             });
-
+            console.log('Estadísticas mensuales enviadas al frontend:', monthlyStats);
             return { rows: monthlyStats };
         } catch (error) {
             console.error('Error al obtener estadísticas mensuales:', error);
