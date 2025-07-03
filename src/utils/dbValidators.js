@@ -21,3 +21,8 @@ export async function validTenantId(tenantId) {
         return false;
     }
 }
+
+export async function isEmailTaken(email) {
+    const { rowCount } = await pool.query('SELECT 1 FROM users WHERE email = $1', [email]);
+    return rowCount > 0;
+}
