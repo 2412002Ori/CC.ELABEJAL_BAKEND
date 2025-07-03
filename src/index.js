@@ -52,6 +52,8 @@ app.use('/api', loginRoutes);
 app.use('/api', locationsRoutes);
 app.use('/api', pruebasRoutes);
 
+
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {

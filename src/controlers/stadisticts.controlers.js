@@ -1,5 +1,5 @@
 import stadisticsModels from '../models/stadistics.models.js';
-import ExcelJS from 'exceljs';
+// import ExcelJS from 'exceljs';
 
 export const getAlldata = async (req, res) => {
     const year = req.query.year;
