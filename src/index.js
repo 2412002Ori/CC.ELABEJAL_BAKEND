@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import { PORT } from './config.js';
 import morgan from 'morgan'
