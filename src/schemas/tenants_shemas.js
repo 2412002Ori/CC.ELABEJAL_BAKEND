@@ -11,6 +11,11 @@ export const tenantSchema = z.object({
     .max(15, "El número de cédula es demasiado largo")
     .regex(/^\d+$/, "El número de cédula solo debe contener números"),
 
+  rif: z.string({
+    required_error: "El RIF es obligatorio",
+    invalid_type_error: "El RIF debe ser un string"
+  }).min(1, "El RIF no puede estar vacío"),
+
   full_name: z.string({
     required_error: "El nombre completo es obligatorio",
     invalid_type_error: "El nombre completo debe ser un string"
@@ -46,6 +51,7 @@ export async function validateTenant(data) {
     
     const alreadyRegistered = existing.rows?.some(tenant =>
       tenant.id_number === data.id_number &&
+      tenant.rif === data.rif &&
       tenant.full_name === data.full_name &&
       tenant.age === data.age &&
       tenant.phone === data.phone &&

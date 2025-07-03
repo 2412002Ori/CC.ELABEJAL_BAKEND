@@ -14,6 +14,7 @@ import inventoriesRoutes from './routes/inventories.routes.js';
 import inventoryRoutes from './routes/inventory.routes.js';
 import loginRoutes from  './routes/login.routes.js';
 import errorHandler  from './middlewares/ErrorHandler.js';
+import locationsRoutes from './routes/locations.routes.js';
 
 import cors from 'cors';
 const app = express();
@@ -36,11 +37,11 @@ app.use('/api', userRoutes);
 app.use('/api', inventoriesRoutes);
 app.use('/api', inventoryRoutes);
 app.use('/api', loginRoutes);
+app.use('/api', locationsRoutes);
 
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  // Limpiar la terminal al iniciar el servidor
   console.clear();
   console.log('Servidor escuchando en el puerto', PORT);
 });
