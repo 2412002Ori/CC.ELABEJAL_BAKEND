@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js";
 import { postPayment , getAllPayments , getPaymentsById , patchPaymentsById , deletepaymentsById} from "../controlers/payments.controlers.js";
 
 const router = Router();
 
-router.post("/payments",authMiddleware , postPayment);
-router.get("/payments", authMiddleware , getAllPayments);
-router.get("/payments/:id", authMiddleware , getPaymentsById);
-router.patch("/payments/:id", authMiddleware , patchPaymentsById);
-router.delete("/payments/:id", authMiddleware , deletepaymentsById);
+router.post("/payments", authMiddleware, authorizeRoles(1, 3), postPayment);
+router.get("/payments", authMiddleware, authorizeRoles(1, 3), getAllPayments);
+router.get("/payments/:id", authMiddleware, authorizeRoles(1, 3), getPaymentsById);
+router.patch("/payments/:id", authMiddleware, authorizeRoles(1, 3), patchPaymentsById);
+router.delete("/payments/:id", authMiddleware, authorizeRoles(1, 3), deletepaymentsById);
 
 export default router;

@@ -4,6 +4,7 @@ import {
   getLocationById
 } from "../controlers/locations.controlers.js"
 
+
 const router = Router()
 
 // Obtener todos los locales

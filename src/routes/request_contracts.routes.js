@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {authMiddleware } from "../middlewares/authMiddleware.js";
+import {authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js";
 import cors from "cors";
 import { getAllRcontracts, getRcontractById , DeleteRcontractById , postRcontract, putRcontractById} from "../controlers/request_contracts.controlers.js";
 
@@ -15,11 +15,11 @@ router.use(cors());
 // router.delete("/request/contracts/:id", authMiddleware, DeleteRcontractById);
 
 // Rutas sin autenticación (para desarrollo)
-router.post("/request/contracts", postRcontract);
-router.get("/request/contracts", getAllRcontracts);
-router.get("/request/contracts/:id", getRcontractById);
-router.put("/request/contracts/:id", putRcontractById);
-router.delete("/request/contracts/:id", DeleteRcontractById);
+router.post("/request/contracts", authorizeRoles(1), postRcontract);
+router.get("/request/contracts", authorizeRoles(1), getAllRcontracts);
+router.get("/request/contracts/:id", authorizeRoles(1), getRcontractById);
+router.put("/request/contracts/:id", authorizeRoles(1), putRcontractById);
+router.delete("/request/contracts/:id", authorizeRoles(1), DeleteRcontractById);
 
 
 export default router;

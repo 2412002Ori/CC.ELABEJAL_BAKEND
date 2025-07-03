@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js";
 import { getAllContracts, getContractById , postContract} from "../controlers/contracts.controlers.js";
 
 const router = Router();
@@ -10,9 +10,9 @@ const router = Router();
 // router.get("/contracts/:id", authMiddleware ,  getContractById);
 
 // Rutas sin autenticación (para desarrollo)
-router.post("/contracts", postContract);
-router.get("/contracts", getAllContracts);
-router.get("/contracts/:id", getContractById);
+router.post("/contracts", authorizeRoles(1), postContract);
+router.get("/contracts", authorizeRoles(1), getAllContracts);
+router.get("/contracts/:id", authorizeRoles(1), getContractById);
 
 
 export default router;

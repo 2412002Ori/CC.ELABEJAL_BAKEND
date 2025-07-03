@@ -6,9 +6,9 @@ import { authMiddleware, authorizeRoles } from "../middlewares/authMiddleware.js
 
 const router = Router()
 
-router.get('/users', authMiddleware, authorizeRoles(1, 2), getUsers);
+router.get('/users', authMiddleware, authorizeRoles(1, 2, 3), getUsers);
 
-router.get('/users/:id', authMiddleware, authorizeRoles(1, 2), getUsersID);
+router.get('/users/:id', authMiddleware, authorizeRoles(1, 2, 3), getUsersID);
 
 router.post('/users', authMiddleware, authorizeRoles(1), userValidate(createUserSchema), createUser);
 
